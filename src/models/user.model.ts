@@ -8,6 +8,11 @@ export class User extends Model {
   public lastName!: string;
   public email!: string;
   public password!: string;
+  public emailVerified!: boolean;
+  public role!: string;
+  public profileImage!: string | null;
+  public phone!: string | null;
+  public lastLogin!: Date | null;
 }
 
 User.init(
@@ -34,6 +39,23 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    emailVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    role: {
+      type: DataTypes.ENUM("admin", "student", "instructor"),
+      defaultValue: "student",
+      allowNull: false,
+    },
+    profileImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
-  { sequelize, modelName: "User" }
+  { sequelize, modelName: "User", timestamps: true }
 );
