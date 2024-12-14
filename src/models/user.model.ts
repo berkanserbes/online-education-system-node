@@ -1,6 +1,7 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { Sequelize, DataTypes, Model, ENUM } from "sequelize";
 
 import { sequelize } from "../configs/postgre.config";
+import { ROLE } from "../utils/role.utils";
 
 export class User extends Model {
   public id!: number;
@@ -44,7 +45,7 @@ User.init(
       defaultValue: false,
     },
     role: {
-      type: DataTypes.ENUM("admin", "student", "instructor"),
+      type: DataTypes.ENUM(...Object.values(ROLE)),
       defaultValue: "student",
       allowNull: false,
     },
