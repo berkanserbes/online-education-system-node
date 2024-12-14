@@ -3,6 +3,7 @@ import { UserService } from "../services/user.service";
 import { CreateUserDTO } from "../dtos/user/create-user.dto";
 import { BaseResponseDTO } from "../dtos/base/base-response.dto";
 import { UserResponseDTO } from "../dtos/user/user-response.dto";
+import { MESSAGES } from "../utils/message.util";
 
 export class UserController {
   public static async createUser(req: Request, res: Response): Promise<any> {
@@ -12,7 +13,7 @@ export class UserController {
       const newUser: UserResponseDTO = await UserService.createUser(dto);
 
       const response: BaseResponseDTO<UserResponseDTO> = {
-        message: "User created successfully",
+        message: MESSAGES.SUCCESS.CREATED,
         isSuccess: true,
         data: newUser,
       };

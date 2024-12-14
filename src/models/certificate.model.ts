@@ -5,9 +5,10 @@ import { sequelize } from "../configs/postgre.config";
 
 export class Certificate extends Model {
   public id!: number;
+  public certificateCode!: string;
   public issueDate!: Date;
-  public student!: Student;
-  public course!: Course;
+  public studentId!: number;
+  public courseId!: number;
 }
 
 Certificate.init(
@@ -17,10 +18,23 @@ Certificate.init(
       autoIncrement: true,
       primaryKey: true,
     },
+    certificateCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
     issueDate: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: new Date(),
+    },
+    studentId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    courseId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   { sequelize, modelName: "Certificate", timestamps: true }
