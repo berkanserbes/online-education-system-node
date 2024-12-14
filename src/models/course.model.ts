@@ -42,6 +42,9 @@ Course.init(
   { sequelize, modelName: "Course", timestamps: true }
 );
 
-Course.belongsToMany(Category, { through: "CourseCategories" });
+Course.belongsToMany(Category, {
+  through: "CourseCategories",
+  foreignKey: "courseId",
+});
 Course.belongsToMany(Instructor, { through: "CourseInstructors" });
 Course.belongsToMany(Student, { through: "CourseStudents" });

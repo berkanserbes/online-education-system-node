@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 import { sequelize } from "../configs/postgre.config";
+import { Course } from "./course.model";
 
 export class Category extends Model {
   public id!: number;
@@ -21,3 +22,8 @@ Category.init(
   },
   { sequelize, modelName: "Category", timestamps: true }
 );
+
+Category.belongsToMany(Course, {
+  through: "CourseCategories",
+  foreignKey: "categoryId",
+});
