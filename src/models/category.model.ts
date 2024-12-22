@@ -1,10 +1,11 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../configs/postgre.config";
 import { Course } from "./course.model";
 
 export class Category extends Model {
   public id!: number;
   public name!: string;
+  public courses?: Course[];
 }
 
 Category.init(
@@ -26,4 +27,5 @@ Category.init(
 Category.belongsToMany(Course, {
   through: "CourseCategories",
   foreignKey: "categoryId",
+  as: "courses",
 });
