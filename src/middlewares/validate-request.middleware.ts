@@ -10,7 +10,6 @@ export const validateRequest = (dto: any) => {
     const errors = await validate(dtoObj);
 
     if (errors.length > 0) {
-      // Validasyon hataları varsa
       const errorMessages = errors.map((error) => ({
         property: error.property,
         constraints: error.constraints,
