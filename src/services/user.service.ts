@@ -2,6 +2,7 @@ import { CreateUserDTO } from "../dtos/user/create-user.dto";
 import { UserResponseDTO } from "../dtos/user/user-response.dto";
 import { User } from "../models/user.model";
 import { hashPassword } from "../utils/password.util";
+import { ROLE } from "../utils/role.utils";
 
 export class UserService {
   /**
@@ -21,6 +22,8 @@ export class UserService {
         lastName: dto.lastName,
         email: dto.email,
         password: hashedPassword,
+        emailVerified: false, // Add default value
+        role: ROLE.USER, // Add default role
       });
 
       const result: UserResponseDTO = {
