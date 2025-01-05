@@ -10,7 +10,10 @@ import { sequelize } from "../configs/postgre.config";
 
 export class Certificate extends Model<
   InferAttributes<Certificate>,
-  InferCreationAttributes<Certificate>
+  InferCreationAttributes<
+    Certificate,
+    { omit: "id" | "createdAt" | "updatedAt" }
+  >
 > {
   declare id: number;
   declare certificateCode: string;

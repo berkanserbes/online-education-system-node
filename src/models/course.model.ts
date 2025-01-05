@@ -11,7 +11,7 @@ import { Student } from "./student.model";
 
 export class Course extends Model<
   InferAttributes<Course>,
-  InferCreationAttributes<Course>
+  InferCreationAttributes<Course, { omit: "id" | "createdAt" | "updatedAt" }>
 > {
   declare id: number;
   declare title: string;

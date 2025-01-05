@@ -13,7 +13,7 @@ import { Instructor } from "./instructor.model";
 
 export class User extends Model<
   InferAttributes<User>,
-  InferCreationAttributes<User>
+  InferCreationAttributes<User, { omit: "id" | "createdAt" | "updatedAt" }>
 > {
   declare id: number;
   declare firstName: string;

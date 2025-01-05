@@ -6,10 +6,12 @@ export const MESSAGES = {
     LOGGED_IN: "Logged in successfully",
     LOGGED_OUT: "Logged out successfully",
     ACTION_COMPLETED: "Action completed successfully",
+    FETCHED: "Data fetched successfully",
   },
   ERROR: {
     NOT_FOUND: "Not found",
     INVALID_REQUEST: "Invalid request",
+    VALIDATE_DATA: "Data validation failed",
     INTERNAL_SERVER_ERROR: "Internal server error",
     FORBIDDEN: "Forbidden",
     CONFLICT: "Conflict occurred",

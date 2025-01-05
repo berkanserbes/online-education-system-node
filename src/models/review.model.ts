@@ -11,7 +11,7 @@ import { Student } from "./student.model";
 
 export class Review extends Model<
   InferAttributes<Review>,
-  InferCreationAttributes<Review>
+  InferCreationAttributes<Review, { omit: "id" | "createdAt" | "updatedAt" }>
 > {
   declare id: number;
   declare rating: number;

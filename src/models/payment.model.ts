@@ -10,7 +10,7 @@ import { Course } from "./course.model";
 
 export default class Payment extends Model<
   InferAttributes<Payment>,
-  InferCreationAttributes<Payment>
+  InferCreationAttributes<Payment, { omit: "id" | "createdAt" | "updatedAt" }>
 > {
   declare id: number;
   declare amount: number;

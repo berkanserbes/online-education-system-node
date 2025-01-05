@@ -29,7 +29,10 @@ interface StudentAttributes {
 }
 
 export class Student
-  extends Model<InferAttributes<Student>, InferCreationAttributes<Student>>
+  extends Model<
+    InferAttributes<Student>,
+    InferCreationAttributes<Student, { omit: "id" | "createdAt" | "updatedAt" }>
+  >
   implements StudentAttributes
 {
   declare id: number;
