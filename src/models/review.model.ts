@@ -1,15 +1,25 @@
-import { DataTypes, Model } from "sequelize";
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
 import { sequelize } from "../configs/postgre.config";
 import { User } from "./user.model";
 import { Course } from "./course.model";
 import { Student } from "./student.model";
 
-export class Review extends Model {
-  public id!: number;
-  public rating!: number;
-  public comment!: string;
-  public studentId!: number;
-  public courseId!: number;
+export class Review extends Model<
+  InferAttributes<Review>,
+  InferCreationAttributes<Review>
+> {
+  declare id: number;
+  declare rating: number;
+  declare comment: string;
+  declare studentId: number;
+  declare courseId: number;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
 }
 
 Review.init(
@@ -30,6 +40,9 @@ Review.init(
     comment: {
       type: DataTypes.STRING,
       allowNull: true,
+      validate: {
+        len: [0, 1000], // Maximum yorum uzunluğu
+      },
     },
     studentId: {
       type: DataTypes.INTEGER,
@@ -39,6 +52,8 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   { sequelize, modelName: "Review", timestamps: true }
 );

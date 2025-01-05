@@ -1,19 +1,35 @@
-import { Sequelize, DataTypes, Model, ENUM } from "sequelize";
+import {
+  Sequelize,
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
 
 import { sequelize } from "../configs/postgre.config";
 import { ROLE } from "../utils/role.utils";
+import { Student } from "./student.model";
+import { Instructor } from "./instructor.model";
 
-export class User extends Model {
-  public id!: number;
-  public firstName!: string;
-  public lastName!: string;
-  public email!: string;
-  public password!: string;
-  public emailVerified!: boolean;
-  public role!: string;
-  public profileImage!: string | null;
-  public phone!: string | null;
-  public lastLogin!: Date | null;
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
+> {
+  declare id: number;
+  declare firstName: string;
+  declare lastName: string;
+  declare email: string;
+  declare password: string;
+  declare emailVerified: boolean;
+  declare role: ROLE;
+  declare profileImage: string | null;
+  declare phone: string | null;
+  declare lastLogin: Date | null;
+  declare readonly createdAt: Date;
+  declare readonly updatedAt: Date;
+
+  declare student?: Student;
+  declare instructor?: Instructor;
 }
 
 User.init(
@@ -26,6 +42,10 @@ User.init(
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [2, 50],
+      },
     },
     lastName: {
       type: DataTypes.STRING,
@@ -35,6 +55,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -46,7 +70,7 @@ User.init(
     },
     role: {
       type: DataTypes.ENUM(...Object.values(ROLE)),
-      defaultValue: "student",
+      defaultValue: ROLE.USER,
       allowNull: false,
     },
     profileImage: {
@@ -56,7 +80,25 @@ User.init(
     phone: {
       type: DataTypes.STRING,
       allowNull: true,
+      validate: {
+        is: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/,
+      },
     },
+    lastLogin: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
-  { sequelize, modelName: "User", timestamps: true }
+  {
+    sequelize,
+    modelName: "User",
+    timestamps: true,
+    indexes: [{ unique: true, fields: ["email"] }],
+  }
 );
+
+// Associations
+User.hasOne(Student, { foreignKey: "userId", as: "student" });
+User.hasOne(Instructor, { foreignKey: "userId", as: "instructor" });
