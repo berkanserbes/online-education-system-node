@@ -39,7 +39,56 @@ export class CategoryController {
 
       return res.status(201).json(response);
     } catch (error: any) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message, isSuccess: false });
+    }
+  }
+
+  public static async getCategories(req: Request, res:Response) : Promise<any> {
+    try {
+      let response: BaseResponseDTO<CategoryResponseDTO[]>;
+
+      const categories = await CategoryService.getCategories();
+
+      response = {
+        message: MESSAGES.SUCCESS.FETCHED,
+        isSuccess: true,
+        data: categories
+      };
+
+
+      return  res.status(200).json(response);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message, isSuccess: false });
+    }
+  }
+
+  public static async getCategoryById(req: Request, res:Response) : Promise<any> {
+    try {
+      const {id} = req.params;
+
+      let response: BaseResponseDTO<CategoryResponseDTO>;
+      
+      if(!id) {
+        response = {
+          data: null,
+          isSuccess: false,
+          message: MESSAGES.ERROR.INVALID_REQUEST
+        };
+
+        return res.status(400).json(response);
+      }
+
+      const category = await CategoryService.getCategoryById(+id);
+
+      response = {
+        message: MESSAGES.SUCCESS.FETCHED,
+        isSuccess: true,
+        data: category
+      };
+
+      return  res.status(200).json(response);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message, isSuccess: false });
     }
   }
 }
